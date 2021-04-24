@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  app:
+    image:  mcr.microsoft.com/dotnet/aspnet:6.0.0-preview.3-alpine3.13-amd64
+    command: sh -c "sleep infinite"
+    ports:
+      - 5000:5000
+    working_dir: /src
+    volumes:
+      - ./src/:/src
