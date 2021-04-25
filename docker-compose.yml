@@ -2,10 +2,22 @@ version: "3.7"
 
 services:
   app:
-    image:  mcr.microsoft.com/dotnet/sdk:6.0.100-preview.3-alpine3.13-amd64
-    command: sh -c "sleep infinite"
+#    image:  mcr.microsoft.com/dotnet/sdk:6.0.100-preview.3-alpine3.13-amd64
+    image:  mcr.microsoft.com/dotnet/sdk:latest
+    command: sh -c "dotnet watch run --project ./frontend/frontend.csproj --urls http://0.0.0.0:5000"
+#    command: sh -c "sleep 1000000000"
     ports:
       - 5000:5000
+      - 5001:5001
+      - 30000-31000:30000-31000
     working_dir: /src
     volumes:
       - ./src/:/src
+ #   networks:
+ #       - backend
+
+    restart: unless-stopped
+
+networks:
+    backend:
+        driver: bridge    
