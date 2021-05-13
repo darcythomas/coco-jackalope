@@ -1,0 +1,3 @@
+name: coco-jackalope
+runtime: dotnet
+description: Code based build and deployment, of a Blazor based photo album.
