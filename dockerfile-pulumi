@@ -1,0 +1,16 @@
+FROM pulumi/pulumi-dotnet:latest
+
+VOLUME /src
+VOLUME /build
+VOLUME /deploy
+
+# restore as a separate layer to speed up builds
+WORKDIR /deploy
+COPY deploy/pulumi/coco-jackalope.csproj .
+RUN dotnet restore
+
+COPY deploy/pulumi/ .
+RUN  pulumi plugin install
+
+CMD  ls -r
+#& dotnet publish -c Release -o /build/pulumi/ 

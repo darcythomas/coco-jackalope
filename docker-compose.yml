@@ -1,20 +1,35 @@
-version: "3.7"
+version: "3.8"
 
 services:
+  # pulumi-image:
+    # image:  pulumi/pulumi-dotnet:latest
+    # command: sh -c "sleep 1000000000"
+    # env_file: ./.env
+    # working_dir: /deploy
+    # volumes:
+    #   - ./deploy/:/deploy
+    #   - ./build/:/build
   pulumi:
-    image:  pulumi/pulumi-dotnet:latest
-    command: sh -c "sleep 1000000000"
+    build:
+      context: .
+      dockerfile: ./dockerfile-pulumi
     env_file: ./.env
     working_dir: /deploy
     volumes:
       - ./deploy/:/deploy
       - ./build/:/build
+#    command: sh -c "sleep 10000000"
   app:
 #    image:  mcr.microsoft.com/dotnet/sdk:6.0.100-preview.3-alpine3.13-amd64
-    image:  mcr.microsoft.com/dotnet/sdk:latest
-    command: sh -c "ls && dotnet publish -c Release -o /build/out/  ./frontend/frontend.csproj "
+#    image:  mcr.microsoft.com/dotnet/sdk:latest
+    build:
+      context: .
+      dockerfile: ./dockerfile-app
+    env_file: ./.env-app
+#    command: sh -c "ls && dotnet publish -c Release -o /build/out/  ./frontend/frontend.csproj "
 #    command: sh -c "dotnet watch run --project ./frontend/frontend.csproj --urls http://0.0.0.0:5000"
-#    command: sh -c "sleep 1000000000"
+    command: sh -c "sleep 1000000000"
+#    command: sh -c "sleep 10"
     ports:
       - 5000:5000
       - 5001:5001

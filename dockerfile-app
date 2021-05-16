@@ -8,5 +8,5 @@ WORKDIR /src
 COPY src/frontend/frontend.csproj .
 RUN dotnet restore
 
-COPY src/frontend/ .
-CMD ls & dotnet publish -c Release -o /build/out/ 
+#COPY src/frontend/ .
+#CMD  dotnet publish -c Release -o /build/out/ 

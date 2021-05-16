@@ -352,3 +352,4 @@ MigrationBackup/
 build/out/
 env
 
+.env-app
