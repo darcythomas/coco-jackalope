@@ -18,7 +18,7 @@ services:
     volumes:
       - ./deploy/:/deploy
       - ./build/:/build
-#    command: sh -c "sleep 10000000"
+    command: sh -c "sleep 10000000"
   app:
 #    image:  mcr.microsoft.com/dotnet/sdk:6.0.100-preview.3-alpine3.13-amd64
 #    image:  mcr.microsoft.com/dotnet/sdk:latest

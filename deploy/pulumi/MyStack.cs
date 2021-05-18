@@ -6,7 +6,7 @@ class MyStack : Stack
     public MyStack()
     {
         // Create an AWS resource (S3 Bucket)
-        var bucket = new Bucket("my-bucket");
+        var bucket = new Bucket("some-bucket");
 
         // Export the name of the bucket
         this.BucketName = bucket.Id;

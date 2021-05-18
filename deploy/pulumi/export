@@ -1,0 +1,85 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2021-05-15T07:01:19.0423071Z",
+            "magic": "2677d89dea3a3aa32e930e701c30bae30aeb64db23ff002feb06c42186fc7e72",
+            "version": "v3.2.1"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "darcythomas",
+                "project": "coco-jackalope",
+                "stack": "coco-jackalope-dev"
+            }
+        },
+        "resources": [
+            {
+                "urn": "urn:pulumi:coco-jackalope-dev::coco-jackalope::pulumi:pulumi:Stack::coco-jackalope-coco-jackalope-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack"
+            },
+            {
+                "urn": "urn:pulumi:coco-jackalope-dev::coco-jackalope::pulumi:providers:aws::default_4_3_1",
+                "custom": true,
+                "id": "c66f832d-092d-4b6c-b315-19a3f4fd306c",
+                "type": "pulumi:providers:aws",
+                "inputs": {
+                    "region": "ap-southeast-2",
+                    "version": "4.3.1"
+                },
+                "outputs": {
+                    "region": "ap-southeast-2",
+                    "version": "4.3.1"
+                }
+            },
+            {
+                "urn": "urn:pulumi:coco-jackalope-dev::coco-jackalope::pulumi:providers:aws::default_4_3_0",
+                "custom": true,
+                "id": "3d49a4fe-1704-44e2-80fd-28e83b3885c7",
+                "type": "pulumi:providers:aws",
+                "inputs": {
+                    "region": "ap-southeast-2",
+                    "version": "4.3.0"
+                },
+                "outputs": {
+                    "region": "ap-southeast-2",
+                    "version": "4.3.0"
+                }
+            },
+            {
+                "urn": "urn:pulumi:coco-jackalope-dev::coco-jackalope::aws:s3/bucket:Bucket::my-bucket",
+                "custom": true,
+                "id": "my-bucket-10a1170",
+                "type": "aws:s3/bucket:Bucket",
+                "inputs": {
+                    "__defaults": [
+                        "acl",
+                        "bucket",
+                        "forceDestroy"
+                    ],
+                    "acl": "private",
+                    "bucket": "my-bucket-10a1170",
+                    "forceDestroy": false
+                },
+                "outputs": {
+                    "acl": "private",
+                    "bucket": "my-bucket-10a1170",
+                    "bucketDomainName": "my-bucket-10a1170.s3.amazonaws.com",
+                    "forceDestroy": false,
+                    "id": "my-bucket-10a1170"
+                },
+                "parent": "urn:pulumi:coco-jackalope-dev::coco-jackalope::pulumi:pulumi:Stack::coco-jackalope-coco-jackalope-dev",
+                "initErrors": [
+                    "creating urn:pulumi:coco-jackalope-dev::coco-jackalope::aws:s3/bucket:Bucket::my-bucket: 1 error occurred:\n\t* error getting S3 Bucket (my-bucket-10a1170) ACL: AccessDenied: Access Denied\n\tstatus code: 403, request id: N7PG1PWGHKD9M2ZR, host id: kilJn2TE1dpxeaJTjZhWPHcAQyxWlhSHw9/0vjDyRcjkeW6P7nzDqCfRmatb0+8yQUQAoyERQzk=\n\n"
+                ],
+                "provider": "urn:pulumi:coco-jackalope-dev::coco-jackalope::pulumi:providers:aws::default_4_3_0::3d49a4fe-1704-44e2-80fd-28e83b3885c7"
+            }
+        ],
+        "pending_operations": [
+            
+        ]
+    }
+}
