@@ -1,0 +1,40 @@
+#FROM mcr.microsoft.com/dotnet/sdk:latest AS Build
+#
+#VOLUME /src
+#VOLUME /build
+#
+## restore as a separate layer to speed up builds
+#
+#RUN echo "Restoring"
+#WORKDIR /src
+#COPY src/frontend/frontend.csproj .
+#RUN dotnet restore
+#RUN echo "Restoring"
+#
+#
+#RUN echo "Building"
+#COPY src/frontend/ .
+#CMD  dotnet publish -c Release -o /build/out/ 
+
+
+
+
+FROM pulumi/pulumi-dotnet:latest AS Publish
+
+#RUN apt-get install curl
+#RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+
+# VOLUME /src
+VOLUME /build
+VOLUME /deploy
+
+# restore as a separate layer to speed up builds
+WORKDIR /deploy
+COPY deploy/pulumi/coco-jackalope.csproj .
+RUN dotnet restore
+
+COPY deploy/pulumi/ .
+RUN  pulumi plugin install
+
+CMD  pulumi stack select coco-jackalope-coco-jackalope-dev && sleep 100000
+#& dotnet publish -c Release -o /build/pulumi/ 

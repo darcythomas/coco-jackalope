@@ -1,6 +1,27 @@
-FROM pulumi/pulumi-dotnet:latest
+FROM mcr.microsoft.com/dotnet/sdk:latest AS Build
 
 VOLUME /src
+VOLUME /build
+
+# restore as a separate layer to speed up builds
+
+RUN echo "Restoring"
+WORKDIR /src
+COPY src/frontend/frontend.csproj .
+RUN dotnet restore
+RUN echo "Restoring"
+
+
+RUN echo "Building"
+COPY src/frontend/ .
+CMD  dotnet publish -c Release -o /build/out/ 
+
+
+
+
+FROM pulumi/pulumi-dotnet:latest AS Publish
+
+# VOLUME /src
 VOLUME /build
 VOLUME /deploy
 
@@ -12,5 +33,5 @@ RUN dotnet restore
 COPY deploy/pulumi/ .
 RUN  pulumi plugin install
 
-CMD  ls -r
+CMD  pulumi stack select coco-jackalope-coco-jackalope-dev && pulumi up -y
 #& dotnet publish -c Release -o /build/pulumi/ 

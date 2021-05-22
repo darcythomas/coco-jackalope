@@ -4,9 +4,14 @@ VOLUME /src
 VOLUME /build
 
 # restore as a separate layer to speed up builds
+
+RUN echo "Restoring"
 WORKDIR /src
 COPY src/frontend/frontend.csproj .
 RUN dotnet restore
+RUN echo "Restoring"
 
-#COPY src/frontend/ .
-#CMD  dotnet publish -c Release -o /build/out/ 
+
+RUN echo "Building"
+COPY src/frontend/ .
+CMD  dotnet publish -c Release -o /build/out/ 
