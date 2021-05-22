@@ -6,14 +6,14 @@ class MyStack : Stack
 {
     public MyStack()
     {
-        var bucket = new Bucket("some-bucket", new BucketArgs
+        var bucket = new Bucket("lovelacegin.com", new BucketArgs
         {
+            BucketName = "lovelacegin.com",
             Website = new BucketWebsiteArgs
             {
                 IndexDocument = "index.html"
             }
         });
-
 
         var bucketObjectIndex = new BucketObject("index.html", new BucketObjectArgs
         {
