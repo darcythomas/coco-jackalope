@@ -2,6 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:latest AS Build
 
 VOLUME /src
 VOLUME /build
+VOLUME /deploy
 
 # restore as a separate layer to speed up builds
 
@@ -14,7 +15,7 @@ RUN echo "Restoring"
 
 RUN echo "Building"
 COPY src/frontend/ .
-CMD  dotnet publish -c Release -o /build/out/ 
+CMD  dotnet publish -c Release -o /deploy/frontend/ 
 
 
 

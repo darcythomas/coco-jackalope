@@ -353,3 +353,5 @@ build/out/
 env
 
 .env-app
+deploy/frontend/
+deploy/pulumi/MimeTypes.2.2.0/
