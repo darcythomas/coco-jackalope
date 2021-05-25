@@ -23,22 +23,21 @@ class MyStack : Stack
 
             }
         });
-        
-        Regex rx = new Regex(@"^(.*)(wwwroot)(?<filePath>.*)",  RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        Regex rx = new Regex(@"^(.*)(wwwroot/)(?<filePath>.*)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         var files = Directory.GetFiles("../frontend/wwwroot", "*", SearchOption.AllDirectories);
-        
+
         foreach (var file in files)
         {
             var name = Path.GetFileName(file);
-            var contentType = MimeTypes.GetMimeType(name);
+            
+            var trimedName = Regex.Replace(name, @"\.br|\.gz$", string.Empty);
+            var contentType = MimeTypes.GetMimeType(trimedName);
 
-            var key = rx.Matches(file).Select(m => m.Groups["filePath"].Value.TrimStart('/')).First();
+            var key = rx.Matches(file).Select(m => m.Groups["filePath"].Value).First();
 
-
-
-            // ... create a bucket object
-            var bucketObject = new BucketObject(key, new BucketObjectArgs
+            var bucketArgs = new BucketObjectArgs
             {
                 Acl = "public-read",
                 Bucket = bucket.BucketName,
@@ -48,7 +47,19 @@ class MyStack : Stack
                 {
 
                 }
-            }, new CustomResourceOptions { Parent = bucket });
+            };
+            
+            if (key.EndsWith(".br"))
+            {
+                bucketArgs.ContentEncoding = "br";
+            }
+            if (key.EndsWith(".gz"))
+            {
+                bucketArgs.ContentEncoding = "gzip";
+            }
+
+            // ... create a bucket object
+            var bucketObject = new BucketObject(key, bucketArgs, new CustomResourceOptions { Parent = bucket });
         }
 
 
@@ -57,11 +68,11 @@ class MyStack : Stack
         this.BucketName = bucket.Id;
         this.BucketEndpoint = Output.Format($"http://{bucket.WebsiteEndpoint}");
 
-    
 
 
 
-    
+
+
 
     }
 
