@@ -1,0 +1,11 @@
+FROM node:16-alpine
+
+
+# restore as a separate layer to speed up builds
+
+RUN echo "Adding Wrangler"
+WORKDIR /deploy
+
+RUN npm i @cloudflare/wrangler -g
+
+

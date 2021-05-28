@@ -14,11 +14,23 @@ services:
       context: .
       dockerfile: ./dockerfile-pulumi-dev
     env_file: ./.env
-    working_dir: /deploy/pulumi
+    working_dir: /deploy
     volumes:
       - ./deploy/:/deploy
       - ./build/:/build
     command: sh -c "sleep 10000000"
+  wrangler:
+    build:
+      context: .
+      dockerfile: ./dockerfile-wrangler
+      network: bridge
+    volumes:
+      - ./deploy/:/deploy
+      - ./build/:/build
+    command: sleep 10000
+    
+    
+
 #  app:
 ##    image:  mcr.microsoft.com/dotnet/sdk:6.0.100-preview.3-alpine3.13-amd64
 ##    image:  mcr.microsoft.com/dotnet/sdk:latest
@@ -43,6 +55,5 @@ services:
 #
 # #   restart: unless-stopped
 #
-#networks:
-#    backend:
-#        driver: bridge    
+
+        
