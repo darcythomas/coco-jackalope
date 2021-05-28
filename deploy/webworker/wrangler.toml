@@ -1,0 +1,8 @@
+name = "compressor"
+type = 'webpack'
+account_id = '34d20a0091a9b975447dc830e8dc6b76'
+route = ''
+zone_id = '8e699fffdc4db3114cf24115563ebaed'
+usage_model = ''
+workers_dev = true
+target_type = "webpack"
