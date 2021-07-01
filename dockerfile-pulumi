@@ -34,5 +34,8 @@ RUN dotnet restore
 COPY deploy/pulumi/ .
 RUN  pulumi plugin install
 
-CMD  pulumi stack select coco-jackalope-coco-jackalope-dev && pulumi up -y
+RUN alias puppy='pulumi up -y'
+RUN cd pulumi
+
+CMD  pulumi stack select coco-jackalope-dev #&& pulumi up -y
 #& dotnet publish -c Release -o /build/pulumi/ 
