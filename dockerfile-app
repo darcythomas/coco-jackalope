@@ -1,12 +1,16 @@
-FROM mcr.microsoft.com/dotnet/sdk:latest
+#FROM mcr.microsoft.com/dotnet/sdk:latest
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-preview.4-alpine3.13-amd64
 
-VOLUME /src
-VOLUME /build
-VOLUME /deploy
+RUN echo "Add Blazor AOT workload"
+RUN dotnet workload install microsoft-net-sdk-blazorwebassembly-aot
 
 # restore as a separate layer to speed up builds
 
 RUN echo "Restoring"
+VOLUME /src
+VOLUME /build
+VOLUME /deploy
+
 WORKDIR /src
 COPY src/frontend/frontend.csproj .
 RUN dotnet restore
@@ -15,4 +19,4 @@ RUN echo "Restoring"
 
 RUN echo "Building"
 COPY src/frontend/ .
-CMD  dotnet publish -c Release -o /deploy/frontend/ 
+CMD  dotnet publish -c Release -o ../../deploy/frontend/ 
