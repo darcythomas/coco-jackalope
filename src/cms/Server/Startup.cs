@@ -6,6 +6,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 
 namespace cms.Server
 {
@@ -22,6 +28,16 @@ namespace cms.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["Auth0:Authority"];
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+                options.RequireHttpsMetadata = false;
+            });
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -47,6 +63,8 @@ namespace cms.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();  
+            app.UseAuthorization();   
 
             app.UseEndpoints(endpoints =>
             {

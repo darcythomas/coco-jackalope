@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using cms.Shared;
+using Microsoft.AspNetCore.Authorization;
 
 namespace cms.Server.Controllers
 {
+    [Authorize] 
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
