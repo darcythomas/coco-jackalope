@@ -1,0 +1,11 @@
+﻿@using ContentComponents
+
+<h3>Posts</h3>
+
+<ContentComponents.RenderPosts Items=@posts />
+
+
+
+@code {
+    private List<string> posts = new List<string>() { "hello", "salor" };
+}

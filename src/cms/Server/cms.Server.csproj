@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\cms.Client.csproj" />
     <ProjectReference Include="..\Shared\cms.Shared.csproj" />
+    <ProjectReference Include="..\ContentComponents\ContentComponents.csproj" />
   </ItemGroup>
 
 

@@ -1,0 +1,19 @@
+<h3>Here</h3>
+
+<div>
+    
+@foreach (var item in Items)
+{
+    <p>@item</p>
+}
+
+</div>
+
+
+
+@code{
+
+
+[Parameter]
+public List<String> Items { get; set; } = new List<String>(){"tea"};
+}
