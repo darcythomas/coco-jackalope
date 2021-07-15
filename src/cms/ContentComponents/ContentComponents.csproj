@@ -10,6 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="5.0.404" />
+    <PackageReference Include="Markdig" Version="0.25.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0-preview.5.21301.17" />
   </ItemGroup>
 

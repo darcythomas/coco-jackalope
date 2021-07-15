@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using ContentComponents;
 
 namespace cms.Client
 {
@@ -32,6 +33,8 @@ namespace cms.Client
                 options.ProviderOptions.ResponseType = "code";
                 options.ProviderOptions.AdditionalProviderParameters.Add("audience", builder.Configuration["Auth0:ApiIdentifier"]);
             });
+
+            builder.Services.AddContentComponentServices();
 
 
             await builder.Build().RunAsync();
