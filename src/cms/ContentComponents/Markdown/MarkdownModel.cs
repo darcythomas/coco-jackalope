@@ -7,17 +7,13 @@ namespace ContentComponents
     public class MarkdownModel : ComponentBase
     {
         [Inject] public IHtmlSanitizer HtmlSanitizer { get; set; }
-        private string _content;
-
-
+        
         [Parameter]
         public string Content
         {
-           // get => _content;
             set
             {
-                _content = value;
-                HtmlContent = ConvertStringToMarkupString(_content);
+                HtmlContent = ConvertStringToMarkupString(value);
             }
         }
 
