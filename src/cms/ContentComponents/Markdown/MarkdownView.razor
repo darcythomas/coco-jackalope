@@ -1,2 +1,37 @@
-@inherits MarkdownModel;
-@HtmlContent
+@using Ganss.XSS;
+@using Markdig;
+@using Microsoft.AspNetCore.Components;
+<div class="markdown">@HtmlContent</div>
+
+@code {
+
+    [Inject] public IHtmlSanitizer HtmlSanitizer { get; set; }
+
+    [Parameter]
+    public Task<string> Content
+    {
+        set;
+        protected get;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HtmlContent = ConvertStringToMarkupString(await Content);
+    }
+
+    public MarkupString HtmlContent { get; protected set; }
+
+    private MarkupString ConvertStringToMarkupString(string value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            var html = Markdig.Markdown.ToHtml(value, new MarkdownPipelineBuilder().UseAdvancedExtensions().Build());
+
+            var sanitizedHtml = HtmlSanitizer.Sanitize(html);
+
+            return new MarkupString(sanitizedHtml);
+        }
+
+        return new MarkupString();
+    }
+}
