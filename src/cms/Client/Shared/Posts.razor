@@ -1,11 +1,31 @@
-﻿@using ContentComponents
+﻿@using ContentComponents.Markdown
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@inject HttpClient Http
 
-<h3>Posts</h3>
+@if(posts == null){<div>loading</div>} else{
+<Virtualize ItemsProvider="@LoadPosts">
+    <div class="">
+     <MarkdownView Content="@context" /> 
+     </div>
+</Virtualize>
+}
 
-<ContentComponents.RenderPosts Items=@posts />
+@code {  
+    private List<String> posts;
 
+    protected override async Task OnInitializedAsync()
+    {
+        //TODO move this to an interface and service
+        posts = (await Http.GetFromJsonAsync<string[]>("media/posts/index.json")).ToList();
+    }
 
+    private async ValueTask<ItemsProviderResult<Task<string>>> LoadPosts(ItemsProviderRequest request)
+    {
+        //TODO move this to an interface and service
+        var postSubSet = posts.Skip(request.StartIndex)
+        .Take(request.Count)
+        .Select((s, i) =>  Http.GetStringAsync(s) );
 
-@code {
-    private List<string> posts = new List<string>() { "# hello \r\n **snazzy**", "salor" };
+        return new ItemsProviderResult<Task<String>>(postSubSet, posts.Count);
+    }
 }
