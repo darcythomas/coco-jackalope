@@ -1,31 +1,62 @@
 ﻿@using ContentComponents.Markdown
-@using Microsoft.AspNetCore.Components.Web.Virtualization
-@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.Web.Virtualization;
+@inject HttpClient Http;
+@inject PublicClient PublicClient
 
-@if(posts == null){<div>loading</div>} else{
-<Virtualize ItemsProvider="@LoadPosts">
-    <div class="">
-     <MarkdownView Content="@context" /> 
-     </div>
-</Virtualize>
+
+@if (posts == null)
+{
+    <div>loading</div>
+}
+else
+{
+    <Virtualize ItemsProvider="@LoadPosts">
+        <div class="">
+            <MarkdownView Content="@context" />
+        </div>
+    </Virtualize>
 }
 
-@code {  
+@code {
     private List<String> posts;
 
     protected override async Task OnInitializedAsync()
     {
         //TODO move this to an interface and service
-        posts = (await Http.GetFromJsonAsync<string[]>("media/posts/index.json")).ToList();
+        try
+        {
+            System.Console.WriteLine("HUH");
+             posts = (await PublicClient.Client.GetFromJsonAsync<string[]>("media/posts/index.json")).ToList();
+        }
+        catch (Exception ex)
+        {
+
+            System.Console.WriteLine("HEY");
+
+            System.Console.WriteLine(ex);
+            throw;
+        }
+
+        System.Console.WriteLine("YO");
     }
 
     private async ValueTask<ItemsProviderResult<Task<string>>> LoadPosts(ItemsProviderRequest request)
     {
-        //TODO move this to an interface and service
-        var postSubSet = posts.Skip(request.StartIndex)
-        .Take(request.Count)
-        .Select((s, i) =>  Http.GetStringAsync(s) );
+        try
+        {
+            //TODO move this to an interface and service
+            var postSubSet = posts.Skip(request.StartIndex)
+            .Take(request.Count)
+            .Select((s, i) => PublicClient.Client.GetStringAsync(s));
 
-        return new ItemsProviderResult<Task<String>>(postSubSet, posts.Count);
+            return new ItemsProviderResult<Task<String>>(postSubSet, posts.Count);
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine("HEY");
+
+            System.Console.WriteLine(ex);
+            throw;
+        }
     }
 }
