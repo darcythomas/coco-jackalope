@@ -18,14 +18,13 @@ namespace cms.Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddHttpClient("ServerAPI",
-            client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
-          .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-              .CreateClient("ServerAPI"));
+            builder.Services.AddHttpClient<PublicClient>(client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+            builder.Services.AddHttpClient("ServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+                .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
-           // builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("ServerAPI"));
+
 
             builder.Services.AddOidcAuthentication(options =>
             {
@@ -35,7 +34,6 @@ namespace cms.Client
             });
 
             builder.Services.AddContentComponentServices();
-
 
             await builder.Build().RunAsync();
         }
